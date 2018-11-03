@@ -41,6 +41,10 @@
                     "type": "name"
                 }
             ]
+        },{
+            "name": "clear",
+            "base": "",
+            "fields": []
         }
     ],
     "types": [],
@@ -48,6 +52,10 @@
         {
             "name": "stproposal",
             "type": "stproposal",
+            "ricardian_contract": ""
+        },{
+            "name": "clear",
+            "type": "clear",
             "ricardian_contract": ""
         }
     ],

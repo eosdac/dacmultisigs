@@ -37,4 +37,6 @@ public:
 
     [[eosio::action]]
     void delproposal(uint64_t proposalid);
+
+    void clear();
 };
