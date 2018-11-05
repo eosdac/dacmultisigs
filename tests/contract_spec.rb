@@ -200,31 +200,31 @@ describe "dacmultisigs" do
     end
   end
 
-  xdescribe "stinproposal" do
+  describe "stinproposal" do
     context "without valid auth" do
-      command %(cleos push action dacmultisigs stinproposal '{"proposer": "tester1", "proposal_name": "firecand1", "requested" : [{"actor": "tester1", "permission": "active"}], "trx": {"expiration": "2018-10-29T00:42:34", "ref_block_num": 26563, "ref_block_prefix": 4040666510, "max_net_usage_words": 0, "max_cpu_usage_ms": 0, "delay_sec": 30, "context_free_actions": [], "actions": [{"account": "dacmultisigs", "name": "stproposal", "authorization" : [{"actor": "tester1", "permission": "active"}], "data": "40353739313539623232346562643963306133643336623163353361653937613264663936303235613035346232396236326631353334656366656430383062660040b80aebe4a2d900403498567aab97", "context_free_data": []}], "transaction_extensions": []}}' -p tester1), allow_error: true
+      command %(cleos push action dacmultisigs stinproposal '{"metadata": "something here", "proposer": "tester1", "proposal_name": "firecand1", "requested" : [{"actor": "tester1", "permission": "active"}], "trx": {"expiration": "2018-10-29T00:42:34", "ref_block_num": 26563, "ref_block_prefix": 4040666510, "max_net_usage_words": 0, "max_cpu_usage_ms": 0, "delay_sec": 30, "context_free_actions": [], "actions": [{"account": "dacmultisigs", "name": "stproposal", "authorization" : [{"actor": "tester1", "permission": "active"}], "data": "40353739313539623232346562643963306133643336623163353361653937613264663936303235613035346232396236326631353334656366656430383062660040b80aebe4a2d900403498567aab97", "context_free_data": []}], "transaction_extensions": []}}' -p tester1), allow_error: true
       its(:stderr) {is_expected.to include('Error 3090004')}
     end
 
     context "with valid auth" do
-      command %(cleos push action dacmultisigs stinproposal '{"proposer": "tester1", "proposal_name": "firecand1", "requested" : [{"actor": "tester1", "permission": "active"}], "trx": {"expiration": "2018-10-29T00:42:34", "ref_block_num": 26563, "ref_block_prefix": 4040666510, "max_net_usage_words": 0, "max_cpu_usage_ms": 0, "delay_sec": 30, "context_free_actions": [], "actions": [{"account": "dacmultisigs", "name": "stproposal", "authorization" : [{"actor": "tester1", "permission": "active"}], "data": "40353739313539623232346562643963306133643336623163353361653937613264663936303235613035346232396236326631353334656366656430383062660040b80aebe4a2d900403498567aab97", "context_free_data": []}], "transaction_extensions": []}}' -p dacauthority), allow_error: true
+      command %(cleos push action dacmultisigs stinproposal '{"metadata": "something here", "proposer": "tester1", "proposal_name": "firecand1", "requested" : [{"actor": "tester1", "permission": "active"}], "trx": {"expiration": "2018-10-29T00:42:34", "ref_block_num": 26563, "ref_block_prefix": 4040666510, "max_net_usage_words": 0, "max_cpu_usage_ms": 0, "delay_sec": 30, "context_free_actions": [], "actions": [{"account": "dacmultisigs", "name": "stproposal", "authorization" : [{"actor": "tester1", "permission": "active"}], "data": "40353739313539623232346562643963306133643336623163353361653937613264663936303235613035346232396236326631353334656366656430383062660040b80aebe4a2d900403498567aab97", "context_free_data": []}], "transaction_extensions": []}}' -p dacauthority), allow_error: true
       its(:stdout) {is_expected.to include('dacmultisigs::stinproposal')}
     end
   end
 
   describe "approve" do
     context "with invalid auth" do
-      command %(cleos push action dacmultisigs approve '{ "proposer": "custodian1", "proposal_name": "myproposal", "level": {"actor": "custodian1", "permission": "active"}}' -p invaliduser1), allow_error: true
+      command %(cleos push action dacmultisigs approve '{ "metadata": "something here", "proposer": "custodian1", "proposal_name": "myproposal", "level": {"actor": "custodian1", "permission": "active"}}' -p invaliduser1), allow_error: true
       its(:stderr) {is_expected.to include('Error 3090004')}
     end
 
     context "with valid auth but not in the list of requested" do
-      command %(cleos push action dacmultisigs approve '{ "proposer": "custodian1", "proposal_name": "myproposal", "level": {"actor": "custodian2", "permission": "active"}}' -p custodian2), allow_error: true
+      command %(cleos push action dacmultisigs approve '{ "metadata": "something here", "proposer": "custodian1", "proposal_name": "myproposal", "level": {"actor": "custodian2", "permission": "active"}}' -p custodian2), allow_error: true
       its(:stderr) {is_expected.to include('approval is not on the list of requested approvals')}
     end
 
     context "with valid auth but not in the list of requested" do
-      command %(cleos push action dacmultisigs approve '{ "proposer": "custodian1", "proposal_name": "myproposal", "level": {"actor": "custodian1", "permission": "active"}}' -p custodian1), allow_error: true
+      command %(cleos push action dacmultisigs approve '{ "metadata": "something here", "proposer": "custodian1", "proposal_name": "myproposal", "level": {"actor": "custodian1", "permission": "active"}}' -p custodian1), allow_error: true
       its(:stdout) {is_expected.to include('dacmultisigs::approve')}
     end
   end

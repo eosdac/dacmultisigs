@@ -98,7 +98,8 @@
 	}, {
 		"name": "propose",
 		"base": "",
-		"fields": [{
+		"fields": [
+            {
 				"name": "proposer",
 				"type": "name"
 			},
@@ -106,6 +107,10 @@
 				"name": "proposal_name",
 				"type": "name"
 			},
+          {
+            "name": "metadata",
+            "type": "string"
+          },
 			{
 				"name": "requested",
 				"type": "permission_level[]"

@@ -20,7 +20,7 @@ void dacmultisigs::stproposal(account_name proposer, name proposalname, checksum
 
 void dacmultisigs::stinproposal() {
 
-    require_auth(N(dacauthority));
+    require_auth(name{N(dacauthority)});
 
     constexpr size_t max_stack_buffer_size = 512;
     size_t action_size = action_data_size();
@@ -36,22 +36,33 @@ void dacmultisigs::stinproposal() {
     checksum256 trx_id;
     sha256(buffer, read, &trx_id);
 
-
     transaction trx = eosio::unpack<transaction>(buffer, size);
 
+    string metadata;
     account_name proposer;
     account_name proposal_name;
-    vector<permission_level> requested;
-//    transaction_header trx_header;
 
-    datastream<const char*> ds( buffer, size );
-    ds >> proposer >> proposal_name >> requested;
+    datastream<const char*> ds( action_buffer, action_size );
+//    ds >> metadata;
 
-//    size_t trx_pos = ds.tellp();
-//    ds >> trx_header;
-//    eosio::print("propopser: ", name{proposer});
+    size_t msig_startpos = ds.tellp();
 
-//    send_inline(buffer, size);
+    ds >> proposer >> proposal_name;
+    print(" details about the actions:::");
+    print(" meta: ", metadata.c_str());
+    print(" proposer: ", name{proposer}.to_string().c_str() );
+    print(" proposal: ", name{proposal_name}.to_string().c_str());
+
+    vector<char> msig_buffer = bytes(buffer + msig_startpos, buffer + size);
+
+    eosio::print("proposer: ", name{proposer});
+
+    action(
+            permission_level(N(dacauthority), N(active)),
+            N(eosio.msig),
+            N(propose),
+            msig_buffer
+    ).send();
 
     proposals_table proposals(_self, proposer);
 
